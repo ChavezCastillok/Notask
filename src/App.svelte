@@ -1,128 +1,98 @@
 <script>
-  let notasks = localStorage.getItem("notasks")
+  import Tasks from "./Tasks.svelte";
+  import ModalAddNote from "./ModalAddNote.svelte";
+  import Note from "./Note.svelte";
+
+  export let title;
+
+  export let notasks = localStorage.getItem("notasks")
     ? JSON.parse(localStorage.getItem("notasks"))
     : [];
-  let notask = {
+  export let notask = {
     id: "",
     title: "",
     text: "",
-    state: false,
+    created: "",
   };
 
+  let modalNewNotask = false;
   $: localStorage.setItem("notasks", JSON.stringify(notasks));
 
-  const add_notask = () => {
-    if (!notask.text.trim()) {
-      console.log("text empty");
-      notask.text = "";
-      return;
-    }
-    notask.id = Date.now();
-    notasks = [...notasks, notask];
-    notask = {
-      id: "",
-      title: "",
-      text: "",
-      state: false,
-    };
-  };
-
-  const delete_notask = (id) => {
-    notasks = notasks.filter((item) => item.id !== id);
-  };
+  function add_notask() {
+    modalNewNotask = true;
+  }
 </script>
 
-<main class="container">
-  <section class=" section">
+<main class="container is-fullhd">
+  <header class="has-text-centered mb-2">
+    <h1 class="title">
+      {title}
+    </h1>
+    <h2 class="subtitle">Notes and task list</h2>
+  </header>
+  <section class="section">
     <div class="columns is-multiline">
-      <article class="column is-6-tablet is-4-desktop is-3-fullhd">
-        <header class="mb-2">
-          <h1 class="title">Notask</h1>
-          <h3 class="subtitle">
-            ...New <span class="tag is-info">{notasks.length + 1}</span>
-          </h3>
-        </header>
-        <div class="box">
-          <form on:submit|preventDefault={add_notask}>
-            <div class="control">
-              <input
-                class="input"
-                type="text"
-                bind:value={notask.title}
-                placeholder="Notask title"
-              />
-            </div>
-            <textarea
-              class="textarea"
-              name="newTask"
-              bind:value={notask.text}
-              placeholder="Notask description"
-            />
-            <div class="control has-text-right">
-              <input
-                class="button is-small is-warning"
-                type="reset"
-                value="Clear"
-              />
-              <input
-                class="button is-small is-success"
-                type="submit"
-                value="Add"
-              />
-            </div>
-          </form>
-        </div>
-        <article>
-          <h3 class="subtitle">fast task list.</h3>
-          <ul>
-            <li>
-              <strong>#TODO</strong>
-            </li>
-          </ul>
-        </article>
+      <article class="column is-6-tablet is-4-desktop">
+        <Tasks />
       </article>
-      <section class="column columns is-multiline">
-        {#each notasks as task, index}
-          <article class="column is-full-tablet is-half-desktop is-4-fullhd">
-            <section class="box">
-              <h3
-                class="subtitle has-text-centered"
-                bind:textContent={task.title}
-                contenteditable="true"
-              />
-              <p
-                class="content {task.state ? 'tachar' : ''}"
-                bind:textContent={task.text}
-                contenteditable="true"
-              />
-              <hr />
-              <article class="level ">
-                <div class="level-left">
-                  <span class="tag is-info">{index + 1}</span>
-                </div>
-                <div class="level-right">
-                  <button
-                    class="button is-small is-danger m-0"
-                    on:click={delete_notask(task.id)}>delete</button
-                  >
-                </div>
-              </article>
-            </section>
-          </article>
-        {:else}
-          <article class="section content">
-            <h2>Welcome</h2>
-            <p>This is a simple app for notes, tasks and or list to do.</p>
-            <p>Make your first <strong>Notask</strong> and starting work.</p>
-          </article>
-        {/each}
-      </section>
+      {#each notasks as task, index}
+        <article class="column is-6-tablet is-4-desktop">
+          <Note bind:notasks bind:task {index} />
+        </article>
+      {:else}
+        <article class="section content">
+          <h2>Welcome</h2>
+          <p>This is a simple app for notes, tasks and or list to do.</p>
+          <p>Make your first <strong>Notask</strong> and starting work.</p>
+        </article>
+      {/each}
     </div>
+    <button
+      id="btn_newNotask"
+      class="button is-link is-rounded"
+      on:click={add_notask}
+    >
+      +
+    </button>
+    <ModalAddNote bind:activeModal={modalNewNotask} bind:notasks bind:notask />
   </section>
+
+  <footer class="footer">
+    <article class="content has-text-centered">
+      <p>
+        <strong>Notask</strong> is being developed by
+        <a href="https://chavezcastillok.github.io">Kevin Chavez</a>, with the
+        beauty of <a href="https://bulma.io">Bulma-css</a> and the power of
+        <a href="https://svelte.dev">Svelte-js</a>.
+      </p>
+      <p>
+        The source code is available on <a
+          href="https://chavezcastillok.github.io">Github</a
+        >
+      </p>
+    </article>
+  </footer>
 </main>
 
 <style>
-  .tachar {
-    text-decoration: line-through;
+  :global(body) {
+    font-family: "Comfortaa";
+  }
+  :global(.title) {
+    font-family: "Fredoka One";
+    font-weight: 100;
+  }
+  :global(.num) {
+    font-family: "Linux Biolinum G", "Linux Biolinum";
+  }
+  #btn_newNotask {
+    position: fixed;
+    bottom: 3%;
+    right: 3%;
+  }
+
+  .button.is-rounded {
+    /* height: 3.2rem; */
+    width: 1rem;
   }
 </style>
