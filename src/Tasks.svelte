@@ -27,9 +27,11 @@
   }
 </script>
 
-<section>
-  <article class="content box">
+<section class="message is-primary">
+  <article class="message-header">
     <h5>Fastasks</h5>
+  </article>
+  <article class="message-body">
     <div class="field has-addons">
       <p class="control">
         <input
@@ -38,13 +40,13 @@
           placeholder="...write and list your task"
         />
       </p>
-      <button class="button is-success" on:click={add_fastask}>Add</button>
+      <button class="button is-primary" on:click={add_fastask}>Add</button>
     </div>
 
     {#each fastasks as ftask, index}
       <section class="level is-mobile">
         <p>
-          <span class="tag is-info">{index + 1}</span>
+          <span class="tag is-primary">{index + 1}</span>
           {#if ftask == ""}
             {del_fastask(index)}
           {:else}
@@ -52,12 +54,12 @@
           {/if}
         </p>
         <p>
-          <span
-            class="tag is-danger"
+          <button
+            class="delete is-small"
             on:click={() => {
               del_fastask(index);
-            }}>x</span
-          >
+            }}
+          />
         </p>
       </section>
     {:else}
@@ -65,11 +67,3 @@
     {/each}
   </article>
 </section>
-
-<style>
-  h5 {
-    padding: 0.1rem;
-    background-color: ghostwhite;
-    text-align: center;
-  }
-</style>

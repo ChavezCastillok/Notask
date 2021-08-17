@@ -1,23 +1,28 @@
 <script>
+  import SelectBulmaColors from "./selectBulmaColors.svelte";
+
   export let activeModal = false;
   export let notasks, notask;
+  export let colorSelected;
 
-  const add_notask = () => {
+  const add_note = () => {
     if (!notask.text.trim()) {
       console.log("text empty");
       notask.text = "";
       return;
     }
-    if (notask.title == "") notask.title = "notitle";
+
     notask.id = Date.now();
     notask.created = new Date(notask.id).toLocaleString("es-ve");
     notask.text = notask.text.replaceAll("\n", "<br />");
+    notask.color = colorSelected;
     notasks = [notask, ...notasks];
     notask = {
       id: "",
       title: "",
       text: "",
       created: "",
+      color: "",
     };
     activeModal = false;
   };
@@ -32,38 +37,48 @@
     <div class="modal-background" on:click={closeModal} />
     <div class="modal-content">
       <article class="section content has-background-white">
-        <h3>
-          Note Task
-          <span class="tag is-info">{notasks.length + 1}</span>
+        <h3 class="title has-text-primary">
+          New Note
+          <span class="tag {colorSelected}">{notasks.length + 1}</span>
         </h3>
-        <form on:submit|preventDefault={add_notask}>
+        <form on:submit|preventDefault={add_note}>
           <div class="control">
             <input
-              class="input"
+              class="input {colorSelected}"
               type="text"
               bind:value={notask.title}
               placeholder="Notask title"
             />
           </div>
           <!-- svelte-ignore a11y-autofocus -->
+
           <textarea
-            class="textarea"
-            name="newTask"
+            class="textarea {colorSelected}"
+            name="newNote"
             bind:value={notask.text}
-            placeholder="Notask description"
+            placeholder="Note description"
             autofocus
           />
-          <div class="control has-text-right">
-            <input
-              class="button is-small is-warning"
-              type="reset"
-              value="Clear"
-            />
-            <input
-              class="button is-small is-success"
-              type="submit"
-              value="Add"
-            />
+
+          <div class="level mt-2">
+            <div class="level-left">
+              <span class="tag {colorSelected} mr-1">color:</span>
+              <SelectBulmaColors bind:colorSelected />
+            </div>
+            <div class="level-right">
+              <div class="control has-text-right">
+                <input
+                  class="button is-small is-warning"
+                  type="reset"
+                  value="Clear"
+                />
+                <input
+                  class="button is-small is-primary"
+                  type="submit"
+                  value="Add"
+                />
+              </div>
+            </div>
           </div>
         </form>
       </article>
@@ -75,3 +90,10 @@
     />
   </div>
 {/if}
+
+<style>
+  .input,
+  .textarea {
+    margin: 0.2rem;
+  }
+</style>

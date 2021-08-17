@@ -13,8 +13,9 @@
     title: "",
     text: "",
     created: "",
+    color: "",
   };
-
+  let btn_newNote;
   let modalNewNotask = false;
   $: localStorage.setItem("notasks", JSON.stringify(notasks));
 
@@ -25,19 +26,19 @@
 
 <main class="container is-fullhd">
   <header class="has-text-centered mb-2">
-    <h1 class="title">
+    <h1 class="title has-text-primary">
       {title}
     </h1>
-    <h2 class="subtitle">Notes and task list</h2>
+    <h2 class="subtitle has-text-primary">Notes and task list</h2>
   </header>
   <section class="section">
     <div class="columns is-multiline">
       <article class="column is-6-tablet is-4-desktop">
         <Tasks />
       </article>
-      {#each notasks as task, index}
+      {#each notasks as task}
         <article class="column is-6-tablet is-4-desktop">
-          <Note bind:notasks bind:task {index} />
+          <Note bind:notasks bind:task />
         </article>
       {:else}
         <article class="section content">
@@ -48,9 +49,16 @@
       {/each}
     </div>
     <button
-      id="btn_newNotask"
-      class="button is-link is-rounded"
+      id="btn_newNote"
+      class="button is-primary is-rounded"
+      bind:this={btn_newNote}
       on:click={add_notask}
+      on:mouseout={() => {
+        btn_newNote.innerText = "+";
+      }}
+      on:mouseover={() => {
+        btn_newNote.innerText = "New Note";
+      }}
     >
       +
     </button>
@@ -78,21 +86,16 @@
   :global(body) {
     font-family: "Comfortaa";
   }
-  :global(.title) {
+  :global(.title, .subtitle) {
     font-family: "Fredoka One";
     font-weight: 100;
   }
   :global(.num) {
     font-family: "Linux Biolinum G", "Linux Biolinum";
   }
-  #btn_newNotask {
+  #btn_newNote {
     position: fixed;
     bottom: 3%;
     right: 3%;
-  }
-
-  .button.is-rounded {
-    /* height: 3.2rem; */
-    width: 1rem;
   }
 </style>
