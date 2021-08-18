@@ -26,10 +26,10 @@
 
 <main class="container is-fullhd">
   <header class="has-text-centered mb-2">
-    <h1 class="title has-text-primary">
+    <h1 class="title has-text-white">
       {title}
     </h1>
-    <h2 class="subtitle has-text-primary">Notes and task list</h2>
+    <h2 class="subtitle has-text-white">Notes and task list</h2>
   </header>
   <section class="section">
     <div class="columns is-multiline">
@@ -89,6 +89,7 @@
   :global(.title, .subtitle) {
     font-family: "Fredoka One";
     font-weight: 100;
+    text-shadow: 0 0 0.25em #00d1b2;
   }
   :global(.num) {
     font-family: "Linux Biolinum G", "Linux Biolinum";

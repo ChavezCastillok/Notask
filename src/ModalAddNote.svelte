@@ -37,7 +37,7 @@
     <div class="modal-background" on:click={closeModal} />
     <div class="modal-content">
       <article class="section content has-background-white">
-        <h3 class="title has-text-primary">
+        <h3 class="title has-text-white">
           New Note
           <span class="tag {colorSelected}">{notasks.length + 1}</span>
         </h3>
