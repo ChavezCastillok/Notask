@@ -75,7 +75,7 @@
       </p>
       <p>
         The source code is available on <a
-          href="https://chavezcastillok.github.io">Github</a
+          href="https://github.com/ChavezCastillok/Notask">Github</a
         >
       </p>
     </article>
@@ -84,10 +84,10 @@
 
 <style>
   :global(body) {
-    font-family: "Comfortaa";
+    font-family: "Comfortaa", cursive;
   }
   :global(.title, .subtitle) {
-    font-family: "Fredoka One";
+    font-family: "Fredoka One", cursive;
     font-weight: 100;
     text-shadow: 0 0 0.25em #00d1b2;
   }
