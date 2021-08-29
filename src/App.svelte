@@ -2,6 +2,7 @@
   import Tasks from "./Tasks.svelte";
   import ModalAddNote from "./ModalAddNote.svelte";
   import Note from "./Note.svelte";
+  import Footer from "./Footer.svelte";
 
   export let title;
 
@@ -22,7 +23,15 @@
   function add_notask() {
     modalNewNotask = true;
   }
+
+  function handleKeydown(event) {
+    const key = event.key;
+    const alt = event.altKey;
+    if (alt && key == "n") add_notask();
+  }
 </script>
+
+<svelte:window on:keydown|stopPropagation={handleKeydown} />
 
 <main class="container is-fullhd">
   <header class="has-text-centered mb-2">
@@ -65,21 +74,7 @@
     <ModalAddNote bind:activeModal={modalNewNotask} bind:notasks bind:notask />
   </section>
 
-  <footer class="footer">
-    <article class="content has-text-centered">
-      <p>
-        <strong>Notask</strong> is being developed by
-        <a href="https://chavezcastillok.github.io">Kevin Chavez</a>, with the
-        beauty of <a href="https://bulma.io">Bulma-css</a> and the power of
-        <a href="https://svelte.dev">Svelte-js</a>.
-      </p>
-      <p>
-        The source code is available on <a
-          href="https://github.com/ChavezCastillok/Notask">Github</a
-        >
-      </p>
-    </article>
-  </footer>
+  <Footer />
 </main>
 
 <style>

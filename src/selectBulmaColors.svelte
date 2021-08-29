@@ -8,7 +8,7 @@
     { color: "black", bulmaCode: "is-dark" },
     { color: "green", bulmaCode: "is-success" },
   ];
-  export let colorSelected;
+  export let colorSelected = colors[0].bulmaCode;
 </script>
 
 <div class="select {colorSelected} is-small ">

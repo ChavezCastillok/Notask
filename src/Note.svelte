@@ -37,6 +37,7 @@
 
 <style>
   h5 {
+    font-weight: bolder;
     width: 100%;
   }
 </style>

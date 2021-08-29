@@ -3,8 +3,10 @@
 
   export let activeModal = false;
   export let notasks, notask;
-  export let colorSelected;
+  let colorSelected;
 
+  let form;
+  let noteTitle;
   const add_note = () => {
     if (!notask.text.trim()) {
       console.log("text empty");
@@ -30,7 +32,17 @@
   function closeModal() {
     activeModal = false;
   }
+
+  function handleKeydown(event) {
+    const key = event.key;
+    const alt = event.altKey;
+    if (alt && key == "Enter") add_note();
+    else if (alt && key == "Backspace") form.reset();
+    else if (key == "Escape") closeModal();
+  }
 </script>
+
+<svelte:window on:keydown|stopPropagation={handleKeydown} />
 
 {#if activeModal}
   <div class="modal is-active">
@@ -41,15 +53,16 @@
           New Note
           <span class="tag {colorSelected}">{notasks.length + 1}</span>
         </h3>
-        <form on:submit|preventDefault={add_note}>
-          <div class="control">
+        <form on:submit|preventDefault={add_note} bind:this={form}>
+          <label class="control">
             <input
               class="input {colorSelected}"
               type="text"
+              bind:this={noteTitle}
               bind:value={notask.title}
               placeholder="Notask title"
             />
-          </div>
+          </label>
           <!-- svelte-ignore a11y-autofocus -->
 
           <textarea

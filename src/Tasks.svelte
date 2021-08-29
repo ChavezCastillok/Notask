@@ -1,54 +1,63 @@
 <script>
-  let fastasks = localStorage.getItem("fastasks")
-    ? JSON.parse(localStorage.getItem("fastasks"))
+  let taskList = localStorage.getItem("taskList")
+    ? JSON.parse(localStorage.getItem("taskList"))
     : [];
-  let fastask = "";
+  let task = "";
 
-  $: localStorage.setItem("fastasks", JSON.stringify(fastasks));
+  $: localStorage.setItem("taskList", JSON.stringify(taskList));
 
-  function add_fastask() {
-    if (!fastask.trim()) {
+  function add_task() {
+    if (!task.trim()) {
       console.log("text empty");
-      fastask = "";
+      task = "";
       return;
     }
-    fastasks.unshift(fastask);
-    fastasks = fastasks;
+    taskList.unshift(task);
+    taskList = taskList;
+    task = "";
   }
 
-  function del_fastask(index) {
+  function delete_task(index) {
     let result = [];
-    for (let ftask of fastasks.keys()) {
+    for (let ftask of taskList.keys()) {
       if (ftask != index) {
-        result.push(fastasks[ftask]);
+        result.push(taskList[ftask]);
       }
     }
-    fastasks = result;
+    taskList = result;
+  }
+  function handleKeydown(event) {
+    const key = event.key;
+    if (key == "Enter" && task != "") add_task();
   }
 </script>
 
+<svelte:window on:keydown|stopPropagation={handleKeydown} />
+
 <section class="message is-primary">
   <article class="message-header">
-    <h5>Fastasks</h5>
+    <h5>Task List</h5>
   </article>
   <article class="message-body">
     <div class="field has-addons">
       <p class="control">
+        <!-- svelte-ignore a11y-autofocus -->
         <input
           class="input"
-          bind:value={fastask}
+          bind:value={task}
           placeholder="...write and list your task"
+          autofocus
         />
       </p>
-      <button class="button is-primary" on:click={add_fastask}>Add</button>
+      <button class="button is-primary" on:click={add_task}>Add</button>
     </div>
 
-    {#each fastasks as ftask, index}
+    {#each taskList as ftask, index}
       <section class="level is-mobile">
         <p>
           <span class="tag is-primary">{index + 1}</span>
           {#if ftask == ""}
-            {del_fastask(index)}
+            {delete_task(index)}
           {:else}
             <span bind:textContent={ftask} contenteditable="true" />
           {/if}
@@ -57,7 +66,7 @@
           <button
             class="delete is-small"
             on:click={() => {
-              del_fastask(index);
+              delete_task(index);
             }}
           />
         </p>
@@ -67,3 +76,9 @@
     {/each}
   </article>
 </section>
+
+<style>
+  h5 {
+    font-weight: bolder;
+  }
+</style>
