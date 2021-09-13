@@ -9,49 +9,56 @@
       command: "alt + Backspace",
       description: "to clean fields on note creation",
     },
-    { command: "Escape", description: "to close create note or this" },
+    {
+      command: "Escape",
+      description: "to close create note or this modal window",
+    },
+    {
+      command: "alt + h",
+      description: "to open this help modal window",
+    },
   ];
+
+  function handleKeydown(event) {
+    const key = event.key;
+    if (key == "Escape") activeModal = false;
+  }
 
   function closeModal() {
     activeModal = false;
   }
-
-  function handleKeydown(event) {
-    const key = event.key;
-    if (key == "Escape") closeModal();
-  }
 </script>
 
-<svelte:window on:keydown|stopPropagation={handleKeydown} />
+<svelte:window on:keydown|preventDefault={handleKeydown} />
 
-{#if activeModal}
-  <div class="modal is-active">
-    <div class="modal-background" on:click={closeModal} />
-    <div class="modal-content">
-      <article class="section content has-background-white">
-        <h3>Notask</h3>
-        <h4>Keyboard commands</h4>
+<div class="modal {activeModal ? 'is-active' : ''} ">
+  <div class="modal-background" on:click={closeModal} />
+  <div class="modal-content">
+    <article class="section content has-background-white">
+      <h3>Notask</h3>
+      <h4>Keyboard commands</h4>
+      <ul>
         {#each commands as kc}
-          <p>
-            <strong class="tag is-primary">{kc.command}</strong>
+          <li class="level">
             {kc.description}
-          </p>
+            <strong class="tag is-primary">{kc.command}</strong>
+          </li>
         {/each}
+      </ul>
 
-        <p class="has-text-centered">
-          <span class="help">
-            If you need more information,
-            <a href="https://chavezcastillok.github.io" target="_blank">
-              contact me.
-            </a>
-          </span>
-        </p>
-      </article>
-    </div>
-    <button
-      class="modal-close is-large"
-      aria-label="close"
-      on:click={closeModal}
-    />
+      <p class="has-text-centered">
+        <span class="help">
+          If you need more information,
+          <a href="https://chavezcastillok.github.io" target="_blank">
+            contact me.
+          </a>
+        </span>
+      </p>
+    </article>
   </div>
-{/if}
+  <button
+    class="modal-close is-large"
+    aria-label="close"
+    on:click={closeModal}
+  />
+</div>

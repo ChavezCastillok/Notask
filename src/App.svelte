@@ -31,7 +31,7 @@
   }
 </script>
 
-<svelte:window on:keydown|stopPropagation={handleKeydown} />
+<svelte:window on:keydown|preventDefault={handleKeydown} />
 
 <main class="container is-fullhd">
   <header class="has-text-centered mb-2">

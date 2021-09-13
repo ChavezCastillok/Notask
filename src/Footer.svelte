@@ -5,7 +5,14 @@
   function displayHelpkc() {
     activeModal = true;
   }
+  function handleKeydown(event) {
+    const key = event.key;
+    const alt = event.altKey;
+    if (alt && key == "h") displayHelpkc();
+  }
 </script>
+
+<svelte:window on:keydown|preventDefault={handleKeydown} />
 
 <ModalHelpkc bind:activeModal />
 <footer class="footer">

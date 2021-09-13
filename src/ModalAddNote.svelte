@@ -42,67 +42,65 @@
   }
 </script>
 
-<svelte:window on:keydown|stopPropagation={handleKeydown} />
+<svelte:window on:keydown|preventDefault={handleKeydown} />
 
-{#if activeModal}
-  <div class="modal is-active">
-    <div class="modal-background" on:click={closeModal} />
-    <div class="modal-content">
-      <article class="section content has-background-white">
-        <h3 class="title has-text-white">
-          New Note
-          <span class="tag {colorSelected}">{notasks.length + 1}</span>
-        </h3>
-        <form on:submit|preventDefault={add_note} bind:this={form}>
-          <label class="control">
-            <input
-              class="input {colorSelected}"
-              type="text"
-              bind:this={noteTitle}
-              bind:value={notask.title}
-              placeholder="Notask title"
-            />
-          </label>
-          <!-- svelte-ignore a11y-autofocus -->
-
-          <textarea
-            class="textarea {colorSelected}"
-            name="newNote"
-            bind:value={notask.text}
-            placeholder="Note description"
-            autofocus
+<div class="modal {activeModal ? 'is-active' : ''}">
+  <div class="modal-background" on:click={closeModal} />
+  <div class="modal-content">
+    <article class="section content has-background-white">
+      <h3 class="title has-text-white">
+        New Note
+        <span class="tag {colorSelected}">{notasks.length + 1}</span>
+      </h3>
+      <form on:submit|preventDefault={add_note} bind:this={form}>
+        <label class="control">
+          <input
+            class="input {colorSelected}"
+            type="text"
+            bind:this={noteTitle}
+            bind:value={notask.title}
+            placeholder="Notask title"
           />
+        </label>
+        <!-- svelte-ignore a11y-autofocus -->
 
-          <div class="level mt-2">
-            <div class="level-left">
-              <span class="tag {colorSelected} mr-1">color:</span>
-              <SelectBulmaColors bind:colorSelected />
-            </div>
-            <div class="level-right">
-              <div class="control has-text-right">
-                <input
-                  class="button is-small is-warning"
-                  type="reset"
-                  value="Clear"
-                />
-                <input
-                  class="button is-small is-primary"
-                  type="submit"
-                  value="Add"
-                />
-              </div>
+        <textarea
+          class="textarea {colorSelected}"
+          name="newNote"
+          bind:value={notask.text}
+          placeholder="Note description"
+          autofocus
+        />
+
+        <div class="level mt-2">
+          <div class="level-left">
+            <span class="tag {colorSelected} mr-1">color:</span>
+            <SelectBulmaColors bind:colorSelected />
+          </div>
+          <div class="level-right">
+            <div class="control has-text-right">
+              <input
+                class="button is-small is-warning"
+                type="reset"
+                value="Clear"
+              />
+              <input
+                class="button is-small is-primary"
+                type="submit"
+                value="Add"
+              />
             </div>
           </div>
-        </form>
-      </article>
-    </div>
-    <button
-      class="modal-close is-large"
-      aria-label="close"
-      on:click={closeModal}
-    />
+        </div>
+      </form>
+    </article>
   </div>
-{/if}
+  <button
+    class="modal-close is-large"
+    aria-label="close"
+    on:click={closeModal}
+  />
+</div>
 
 <style>
   .input,
