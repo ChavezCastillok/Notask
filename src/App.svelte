@@ -1,4 +1,5 @@
 <script>
+  import "bulma/css/bulma.css";
   import Tasks from "./Tasks.svelte";
   import ModalAddNote from "./ModalAddNote.svelte";
   import Note from "./Note.svelte";
@@ -31,7 +32,7 @@
   }
 </script>
 
-<svelte:window on:keydown|preventDefault={handleKeydown} />
+<svelte:window on:keydown={handleKeydown} />
 
 <main class="container is-fullhd">
   <header class="has-text-centered mb-2">

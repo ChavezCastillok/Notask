@@ -32,7 +32,7 @@
   }
 </script>
 
-<svelte:window on:keydown|stopPropagation={handleKeydown} />
+<svelte:window on:keydown={handleKeydown} />
 
 <section class="message is-primary">
   <article class="message-header">

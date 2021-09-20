@@ -12,7 +12,7 @@
   }
 </script>
 
-<svelte:window on:keydown|preventDefault={handleKeydown} />
+<svelte:window on:keydown={handleKeydown} />
 
 <ModalHelpkc bind:activeModal />
 <footer class="footer">

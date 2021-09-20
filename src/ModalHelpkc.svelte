@@ -29,7 +29,7 @@
   }
 </script>
 
-<svelte:window on:keydown|preventDefault={handleKeydown} />
+<svelte:window on:keydown={handleKeydown} />
 
 <div class="modal {activeModal ? 'is-active' : ''} ">
   <div class="modal-background" on:click={closeModal} />
